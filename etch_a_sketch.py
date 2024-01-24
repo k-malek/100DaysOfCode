@@ -1,4 +1,4 @@
-'''Graphics module'''
+'''Working etch-a-sketch software'''
 from turtle import Turtle, Screen
 
 turtle = Turtle()

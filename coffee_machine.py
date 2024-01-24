@@ -1,5 +1,6 @@
+'''Coffee machine software'''
 class CoffeeMachine:
-    '''Coffee machine software'''
+    '''Coffee machine software class'''    
     options={'espresso':{'water':[50,'ml'],'coffee':[18,'g'],'money':[-1.5,'$']},
              'latte':{'water':[200,'ml'],'milk':[150,'ml'],'coffee':[24,'g'],'money':[-2.5,'$']},
              'cappuccino':{'water':[250,'ml'],'milk':[100,'ml'],'coffee':[24,'g'],'money':[-3.0,'$']}}
