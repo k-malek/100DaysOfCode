@@ -1,5 +1,5 @@
 import pygame
-from model.paddle import Paddle
+from model import Ball,Paddle
 
 (WIDTH, HEIGHT) = (1200, 740)
 FPS=60
@@ -10,6 +10,8 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 paddle_A=Paddle(GAME_SPEED,screen,PADDLE_SCREEN_DISTANCE)
 paddle_B=Paddle(GAME_SPEED,screen,WIDTH-PADDLE_SCREEN_DISTANCE-Paddle.WIDTH)
+ball = Ball(GAME_SPEED,screen)
+score = [0,0]
 
 clock = pygame.time.Clock()
 running=True
@@ -42,6 +44,13 @@ while running:
     #updating on-screen objects
     paddle_A.update()
     paddle_B.update()
+    goal=ball.update([paddle_A,paddle_B])
+    if goal:
+        score[0]+=goal[0]
+        score[1]+=goal[1]
+        goal=None
+    screen.blit(pygame.font.SysFont('Calibri', 50).render(str(score[0]), True, (255,255,255)), (WIDTH//2-60, 50))
+    screen.blit(pygame.font.SysFont('Calibri', 50).render(str(score[1]), True, (255,255,255)), (WIDTH//2+40, 50))
     
     pygame.display.flip()
     
