@@ -5,6 +5,8 @@ import tkinter.ttk as ttk
 from PIL import Image,ImageTk
 from tkinter import messagebox
 
+DELIMITER=' | '
+
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -32,12 +34,31 @@ def save_data():
         messagebox.showerror(title="Empty data",message="Make sure to fill all the fields!")
     else:
         with open("pass.txt","a+",encoding="utf-8") as f:
-            f.write(f'{website_var.get()}/{user_var.get()}/{password_var.get()}\n')
+            f.write(f'{website_var.get()}{DELIMITER}{user_var.get()}{DELIMITER}{password_var.get()}\n')
             website_var.set('')
             password_var.set('')
 
         messagebox.showinfo(title="Success", message="Your password has been stored in a super secret place!")
-    
+
+# ---------------------------- SEARCH & RETRIEVE PASSWORD ------------------------------- #
+
+def get_password():
+    searched_website=website_var.get()
+    if not searched_website:
+        messagebox.showerror(title="Empty data",message="Provide website!")
+        return None
+    try:
+        with open('pass.txt','r',encoding='utf-8') as f:
+            for line in f.readlines():
+                website,user,password=line.split(DELIMITER)
+                if website==searched_website:
+                    messagebox.showinfo(title="Password found", message=f"Here you have it: \nWebsite:{website}\nUsername:{user}\nPassword:{password}")
+                    return None
+            messagebox.showwarning(title="Password not found", message="I couldn't find the password!\nMake sure that you provided correct website")
+            return None    
+    except FileNotFoundError:
+        messagebox.showerror(title="File not found",message="I couldn't find file with passwords!")
+        return None
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -65,7 +86,7 @@ password_var=tk.StringVar()
 
 # Entries
 
-website_input=ttk.Entry(width=51,textvariable=website_var)
+website_input=ttk.Entry(width=32,textvariable=website_var)
 user_input=ttk.Entry(width=51,textvariable=user_var)
 password_input=ttk.Entry(width=32,textvariable=password_var)
 website_input.focus()
@@ -74,7 +95,7 @@ website_input.focus()
 
 gen_pass_button=ttk.Button(width=17,text="Generate password",command=generate_password)
 add_button=ttk.Button(width=51,text="Add",command=save_data)
-
+search_button=ttk.Button(width=17,text="Search",command=get_password)
 
 # UI elements positioning
 
@@ -82,9 +103,10 @@ canvas.grid(row=0,column=1)
 website_label.grid(row=1,column=0, sticky="e")
 user_label.grid(row=2,column=0, sticky="e")
 password_label.grid(row=3,column=0, sticky="e")
-website_input.grid(row=1,column=1,columnspan=2, sticky="w")
+website_input.grid(row=1,column=1, sticky="w")
 user_input.grid(row=2,column=1,columnspan=2, sticky="w")
 password_input.grid(row=3,column=1, sticky="w")
+search_button.grid(row=1,column=2, sticky="w")
 gen_pass_button.grid(row=3,column=2, sticky="w")
 add_button.grid(row=4,column=1,columnspan=2)
 
