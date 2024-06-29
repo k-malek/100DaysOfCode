@@ -1,2 +1,5 @@
 flight_deals/.DS_Store
 flight_deals/.env
+yt_downloader/test.html
+yt_downloader/__pycache__/yt_playlist.cpython-310.pyc
+yt_downloader/__pycache__/yt_video.cpython-310.pyc
