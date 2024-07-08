@@ -45,7 +45,7 @@ class YtVideo(pt.YouTube):
         return result
 
     def make_stripped_title(self) -> str:
-        forbidden_characters=['|','"','!','?','.']
+        forbidden_characters=['|','"','!','?','.','/']
         temp_title=self.title
         for char in forbidden_characters:
             if char in temp_title:
