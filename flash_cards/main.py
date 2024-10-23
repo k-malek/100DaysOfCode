@@ -9,7 +9,7 @@ CARDSET=Card.get_set(FILE)
 
 
 def update_ui_data(card):
-    side,word = card.get_data()
+    side,word = card.get_set()
     canvas.itemconfig(language_label,text=Card.subjects[side])
     canvas.itemconfig(word_label,text=word)
     canvas.itemconfig(card_bg,image=card_images[side])

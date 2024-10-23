@@ -15,15 +15,22 @@ class YtVideo(pt.YouTube):
                  proxies: Dict[str, str] = None, 
                  use_oauth: bool = False,
                  allow_oauth_cache: bool = True):
-        yt_url = video_id if 'youtube' in video_id else 'https://www.youtube.com/watch?v='+video_id 
-        super().__init__(yt_url, on_progress_callback, on_complete_callback, proxies, use_oauth, allow_oauth_cache)
+        self.url=self.enrich_url(video_id)
+        super().__init__(self.url, on_progress_callback, on_complete_callback, proxies, use_oauth, allow_oauth_cache)
 
     def __str__(self) -> str:
         return f'Title: {self.title}\nChannel: {self.author}\nLength: {self.make_formatted_length()}'
+    
+    def enrich_url(self,url:str) -> str:
+        if 'youtube' not in url:
+            url='https://www.youtube.com/watch?v='+url
+        elif 'www' not in url:
+            url=url.replace(r'https://',r'https://www.')
+        return url
 
     def download(self,path: str | None = None, prefix: str | None = None) -> None:
         print("I download for U:",self.title)
-        if not ':\\' in path:
+        if path and not ':\\' in path:
             path=os.path.join(os.getcwd(),path)
         filename=f'{self.make_stripped_title()}.mp4'
         if prefix:
@@ -45,7 +52,7 @@ class YtVideo(pt.YouTube):
         return result
 
     def make_stripped_title(self) -> str:
-        forbidden_characters=['|','"','!','?','.','/']
+        forbidden_characters=['|','"','!','?','.','/','(',')']
         temp_title=self.title
         for char in forbidden_characters:
             if char in temp_title:
