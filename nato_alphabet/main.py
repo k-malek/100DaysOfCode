@@ -15,3 +15,5 @@ def nato_translate(word:str) -> list | None:
     except KeyError:
         print("Incorrect word provided")
         return None
+
+print(nato_translate("Everybody"))

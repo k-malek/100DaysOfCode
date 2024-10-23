@@ -12,7 +12,7 @@ for row,content in sheet_prices.iterrows():
 
 DataManager.set_prices(sheet_prices)
 
-flight_search.get_all_flights('ROM',origin='PRG',how_many_days=90,start_day='2024-07-01')
+flight_search.get_all_flights('ROM',origin='PRG',how_many_days=30,start_day='2024-11-01')
 
 print(flight_search.get_cheapest_flight())
 print(flight_search.get_shortest_flight())
